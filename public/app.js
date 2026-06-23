@@ -287,15 +287,14 @@ hands.onResults((results) => {
   const openHands = handStates.filter((h) => h.open);
   const fistDetected = handStates.some((h) => h.fist);
 
-  if (!systemReady && openHands.length >= 2) {
-    systemReady = true;
-    motionHandIndex = openHands[0].index;
-    resetGestureState();
-    setPalmState("OPEN OPEN");
-    setSystemState("READY");
-    sendLog("double palm ready");
-    return;
-  }
+if (openHands.length >= 1 && !catVisible) {
+  spawnCats();
+  catVisible = true;
+  setPalmState("OPEN");
+  setSystemState("PLAYING");
+  sendLog("cats spawned");
+  return;
+}
 
   if (fistDetected) {
     setPalmState("FIST");
